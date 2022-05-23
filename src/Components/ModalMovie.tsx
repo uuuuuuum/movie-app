@@ -86,6 +86,10 @@ const ShortInfoGroup = styled.div`
     flex-wrap: wrap;
     gap: 10px;
     margin: 25px 0 15px;
+    
+    @media screen and (max-width: 480px) {
+        margin: 15px 0 10px;
+    }
 `;
 
 const Badge = styled.span`

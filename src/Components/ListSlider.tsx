@@ -453,6 +453,12 @@ const BigTitle = styled.h3`
     line-height: 1.4em;
     text-decoration: underline;
     text-decoration-color: ${(props) => props.theme.red};
+    word-break: break-word;
+
+    @media screen and (max-width: 480px) {
+        max-width: 72%;
+    }
+    
 `;
 const VoteAverage = styled.span`
     font-size: 4em;
