@@ -674,7 +674,7 @@ function ListSlider({ isLoading, data, name } : IGetMoviesAndTvResultProp) {
                                     <BigCoverBox isDark={isDark}>
                                         { clickedMovie.backdrop_path
                                             ? <BigCover src={makeImagePath(clickedMovie.backdrop_path)} alt="movie image" />
-                                            : <BigCover as="div" style={{ height: "40vw", maxHeight: "400px", background: `url("${makeImagePath(clickedMovie.poster_path)}") no-repeat center / cover` }} />
+                                            : <BigCover as="div" style={{ height: "45vw", maxHeight: "400px", background: `url("${makeImagePath(clickedMovie.poster_path)}") no-repeat center / cover` }} />
                                         }
                                     </BigCoverBox>
                                     <BigModalInfoBox isDark={isDark}>

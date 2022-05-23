@@ -84,6 +84,11 @@ const GlobalStyle = createGlobalStyle`
       font-size: 12px;
     }
   }
+
+  #root {
+    width: 100%;
+    overflow-x: hidden;
+  }
 `;
 
 function App() {

@@ -21,6 +21,11 @@ const BigOverview = styled.p`
         max-width: unset;
         text-align: left;
     }
+    @media screen and (max-width: 480px) {
+        font-size: 12px;
+        letter-spacing: 0.7px;
+        line-height: 1.6em;
+    }
 `;
 const InfoGroup = styled.ul<IBtnTheme>`
     display: flex;
@@ -28,12 +33,20 @@ const InfoGroup = styled.ul<IBtnTheme>`
     gap: 10px;
     margin-top: 40px;
 
+    @media screen and (max-width: 480px) {
+        margin-top: 20px;
+    }
+
     & > li {
         min-width: calc(100% / 4 - 15px);
         padding: 12px;
         border: 1px solid #323232;
         border-color: ${(props) => props.isDark ? "#323232" : "#e7e7ed" };
         border-radius: 2px;
+
+        @media screen and (max-width: 480px) {
+            padding: 8px;
+        }
     }
     li {
         display: flex;
@@ -61,6 +74,8 @@ const InfoGroup = styled.ul<IBtnTheme>`
     ul {
         display: flex;
         align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
     }
 `;
 
@@ -131,15 +146,6 @@ function ModalTv({ resultId }: IModalTv) {
                             </li>
                         ) : null
                     }
-                    {
-                        data?.homepage ? (
-                            <li>
-                                <span>homepage </span>
-                                <span>{ data?.homepage }</span>
-                            </li>
-                        ) : null
-                    }
-                    
                 </InfoGroup>
             </div>
         )
