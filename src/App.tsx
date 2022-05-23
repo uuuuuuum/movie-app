@@ -92,7 +92,7 @@ function App() {
   return (
     <ThemeProvider theme={ isDark ? darkTheme : lightTheme }>
       <GlobalStyle />
-      <Router>
+      <Router basename={process.env.PUBLIC_URL}>
         <Header />
         <Routes>
           <Route path="/tv" element={<Tv />}></Route>
