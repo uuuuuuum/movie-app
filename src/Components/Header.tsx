@@ -3,10 +3,10 @@ import { motion, useAnimation, useViewportScroll } from "framer-motion";
 import { Link, useMatch, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { isdarkState } from "../atoms";
+import { isDarkState } from "../atoms";
 import { useRecoilState } from "recoil";
 
-const Nav = styled(motion.nav)<{isdark: boolean}>`
+const Nav = styled(motion.nav)<{isDark: boolean}>`
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -16,7 +16,7 @@ const Nav = styled(motion.nav)<{isdark: boolean}>`
     font-size: 16px;
     font-weight: bold;
     letter-spacing: -0.33px;
-    background: ${(props) => props.isdark ? null : "linear-gradient(to bottom, white, transparent)" };
+    background: ${(props) => props.isDark ? null : "linear-gradient(to bottom, white, transparent)" };
     position: fixed;
     top: 0;
     z-index: 10000;
@@ -114,7 +114,7 @@ const SearchBox = styled.div<IBtnTheme>`
         left: 50%;
         transform: translateX(-50%);
         top: 0;
-        background-color: ${(props) => props.isdark ? props.theme.bgColor : "#bbb"};
+        background-color: ${(props) => props.isDark ? props.theme.bgColor : "#bbb"};
         border-radius: 0 0 4px 4px;
         z-index: 1;
     }
@@ -144,10 +144,10 @@ const SearchVriants = {
         border: "1px solid rgba(255, 255, 255, 0.4)",
     }
 }
-const SvgSearch = styled(motion.svg)<{isdark: boolean}>`
+const SvgSearch = styled(motion.svg)<{isDark: boolean}>`
     height: 25px;
     cursor: pointer;
-    fill: ${(props) => props.isdark ? "white" : "black" };
+    fill: ${(props) => props.isDark ? "white" : "black" };
 `;
 const SvgSearchVariants = {
     normal: {
@@ -184,17 +184,17 @@ const InputVariants = {
 }
 
 interface IBtnTheme {
-    isdark: boolean;
+    isDark: boolean;
 }
-export const BtnTheme = styled.button<IBtnTheme>`
+const BtnTheme = styled.button<IBtnTheme>`
     display: flex;
     align-items: center;
     margin-left: 15px;
     padding: 6px;
     font-size: 12px;
-    background-color: ${(props) => props.isdark ? "#131313" : "rgba(255, 255, 255, 0.6)" };
+    background-color: ${(props) => props.isDark ? "#131313" : "rgba(255, 255, 255, 0.6)" };
     border: 1px solid transparent;
-    border-color: ${(props) => props.isdark ? "rgba(0,0,0,0.24)" : "#51454532" };
+    border-color: ${(props) => props.isDark ? "rgba(0,0,0,0.24)" : "#51454532" };
     border-radius: 12px;
     position: relative;
     width: 58px;
@@ -203,16 +203,15 @@ export const BtnTheme = styled.button<IBtnTheme>`
 
     transition: left 0.3s linear, background-color 0.3s linear;
 
-    /* color: ${(props) => props.isdark ? "red" : "blue"}; */
     &:before {
-        content: ${(props) => props.isdark ? `"Dark"` : `"Light"`};
+        content: ${(props) => props.isDark ? `"Dark"` : `"Light"`};
         display: block;
         flex: 1;
-        color: ${(props) => props.isdark ? "white" : "#444"};
+        color: ${(props) => props.isDark ? "white" : "#444"};
 
         position: absolute;
-        left: ${(props) => props.isdark ? "auto" : "8px"};
-        right: ${(props) => props.isdark ? "8px" : "auto"};
+        left: ${(props) => props.isDark ? "auto" : "8px"};
+        right: ${(props) => props.isDark ? "8px" : "auto"};
     };
     &:after {
         content: '';
@@ -221,11 +220,11 @@ export const BtnTheme = styled.button<IBtnTheme>`
 
         width: 12px;
         height: 12px;
-        background-color: ${(props) => props.isdark ? "#676c98" : "#eb8181"};
+        background-color: ${(props) => props.isDark ? "#676c98" : "#eb8181"};
         border-radius: 6px;
 
         position: absolute;
-        left: ${(props) => props.isdark ? "4px" : "calc(100% - 12px - 4px)"};
+        left: ${(props) => props.isDark ? "4px" : "calc(100% - 12px - 4px)"};
 
         transition: left 0.3s linear, background-color 0.3s linear;
     };
@@ -242,9 +241,9 @@ interface IForm {
 }
 
 function Header() {
-    const [isdark, setisdark] = useRecoilState(isdarkState);
+    const [isDark, setisDark] = useRecoilState(isDarkState);
     const ToggleDark = () => {
-        setisdark((prev) => !prev);
+        setisDark((prev) => !prev);
     };
 
     const [searchOpen, setSearchOpen] = useState(false);
@@ -272,7 +271,7 @@ function Header() {
     useEffect(() => {
         scrollY.onChange(() => {
             if(scrollY.get() > 84) {
-                if(isdark) {
+                if(isDark) {
                     navAnimation.start("scrollB");
                 } else {
                     navAnimation.start("scrollW");
@@ -282,7 +281,7 @@ function Header() {
             }
         });
         if(scrollY.get() > 84) {
-            if(isdark) {
+            if(isDark) {
                 navAnimation.start("scrollB");
             } else {
                 navAnimation.start("scrollW");
@@ -290,7 +289,7 @@ function Header() {
         } else {
             navAnimation.start("top");
         }
-    }, [scrollY, isdark]);
+    }, [scrollY, isDark]);
 
     //Search
     const navigate = useNavigate();
@@ -301,7 +300,7 @@ function Header() {
     }
     return (
         <Nav 
-            isdark={isdark}
+            isDark={isDark}
             variants={navVariants}
             initial={"top"}
             animate={navAnimation}
@@ -337,7 +336,7 @@ function Header() {
                 </Items>
             </Col>
             <Col>
-                <SearchBox isdark={isdark}>
+                <SearchBox isDark={isDark}>
                     <Search 
                         onSubmit={handleSubmit(onValid)}
                         variants={SearchVriants}
@@ -345,7 +344,7 @@ function Header() {
                         animate={searchBoxAnimation}
                     >
                         <SvgSearch
-                            isdark={isdark}
+                            isDark={isDark}
                             variants={SvgSearchVariants}
                             animate={SvgSearchAnimation}
                             onClick={toggleSearch}
@@ -368,7 +367,7 @@ function Header() {
                 </SearchBox>
                 <BtnTheme
                     onClick={ToggleDark}
-                    isdark={isdark}
+                    isDark={isDark}
                 ></BtnTheme>
             </Col>
         </Nav>        

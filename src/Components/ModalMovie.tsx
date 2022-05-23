@@ -2,11 +2,10 @@ import { useQuery } from "react-query";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { getMovieDetails, IMovieDetails } from "../api";
-import { isdarkState } from "../atoms";
-import { makeImagePath } from "../untils";
+import { isDarkState } from "../atoms";
 
 interface IBtnTheme {
-    isdark: boolean;
+    isDark: boolean;
 }
 
 const BigOverview = styled.p`
@@ -33,7 +32,7 @@ const InfoGroup = styled.ul<IBtnTheme>`
         min-width: calc(100% / 4 - 15px);
         padding: 12px;
         border: 1px solid #323232;
-        border-color: ${(props) => props.isdark ? "#323232" : "#e7e7ed" };
+        border-color: ${(props) => props.isDark ? "#323232" : "#e7e7ed" };
         border-radius: 2px;
     }
     li {
@@ -45,7 +44,7 @@ const InfoGroup = styled.ul<IBtnTheme>`
             display: inline-block;
             margin-right: 10px;
             padding: 6px; 
-            background-color: ${(props) => props.isdark ? "#333" : "#e2e2e7" };
+            background-color: ${(props) => props.isDark ? "#333" : "#e2e2e7" };
             border-radius: 4px;
             font-size: 12px;
         }
@@ -92,7 +91,7 @@ export interface IModalMovie {
 }
 
 function ModalMovie({ resultId, pathname }: IModalMovie) {
-    const isdark = useRecoilValue(isdarkState);
+    const isDark = useRecoilValue(isDarkState);
     const { isLoading, data } = useQuery<IMovieDetails>(["movie", "details"], () => getMovieDetails(resultId));
 
     return (
@@ -106,7 +105,7 @@ function ModalMovie({ resultId, pathname }: IModalMovie) {
                 <BigOverview>{
                     data?.overview ? data?.overview : "there is no overview for this movie"
                 }</BigOverview>
-                <InfoGroup isdark={isdark}>
+                <InfoGroup isDark={isDark}>
                     <li>
                         <span>genres</span>
                         <ul>

@@ -1,6 +1,7 @@
 import { atom } from "recoil";
 
-export const isdarkState = atom({
-    key: "isdark",
+// Theme Toggle
+export const isDarkState = atom<boolean>({
+    key: "toggletheme",
     default: true,
 });

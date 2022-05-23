@@ -2,8 +2,8 @@ import { Helmet } from "react-helmet";
 import { useQuery } from "react-query";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { getMoivesPopular, getMoivesTopRated, getMoivesUpcoming, getMoviesNowPlaying, IGetMoviesAndTvResult } from "../api";
-import { isdarkState } from "../atoms";
+import { getMoviesPopular, getMoviesTopRated, getMoviesUpcoming, getMoviesNowPlaying, IGetMoviesAndTvResult } from "../api";
+import { isDarkState } from "../atoms";
 import ListSlider from "../Components/ListSlider";
 import { makeImagePath } from "../untils";
 
@@ -16,13 +16,17 @@ const Loader = styled.div`
     align-items: center;
     height: 20vh;
 `
-const Banner = styled.div<{bgphoto:string, isdark:boolean}>`
+interface IBanner {
+    bgphoto: string;
+    isDark: boolean;
+}
+const Banner = styled.div<IBanner>`
     display: flex;
     flex-direction: column;
     justify-content: center;
     padding: 60px;
     min-height: 100vh;
-    background-image: linear-gradient(${(props) => props.isdark ?
+    background-image: linear-gradient(${(props) => props.isDark ?
         "rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 1) 80%"
         : "rgba(255, 255, 255, 0), rgba(255, 255, 255, 0), #ededed 70%"
     }), url(${(props) => props.bgphoto});
@@ -112,12 +116,12 @@ const SliderGroup = styled.div`
 `;
 
 function Home()  {
-    const isdark = useRecoilValue(isdarkState);
+    const isDark = useRecoilValue(isDarkState);
     
     const {data: dataNowPlaying, isLoading: isLoadingNowPlaying} = useQuery<IGetMoviesAndTvResult>(["movie", "nowPlaying"], getMoviesNowPlaying);
-    const {data: dataTopLated, isLoading: isLoadingTopLated } = useQuery<IGetMoviesAndTvResult>(["movie", "topLated"], getMoivesTopRated);
-    const {data: dataPopular, isLoading: isLoadingPopular } = useQuery<IGetMoviesAndTvResult>(["movie", "popular"], getMoivesPopular);
-    const {data: dataUpcoming, isLoading: isLoadingUpcoming } = useQuery<IGetMoviesAndTvResult>(["movie", "upcoming"], getMoivesUpcoming);
+    const {data: dataTopLated, isLoading: isLoadingTopLated } = useQuery<IGetMoviesAndTvResult>(["movie", "topLated"], getMoviesTopRated);
+    const {data: dataPopular, isLoading: isLoadingPopular } = useQuery<IGetMoviesAndTvResult>(["movie", "popular"], getMoviesPopular);
+    const {data: dataUpcoming, isLoading: isLoadingUpcoming } = useQuery<IGetMoviesAndTvResult>(["movie", "upcoming"], getMoviesUpcoming);
 
     const isLoading = isLoadingNowPlaying && isLoadingTopLated && isLoadingPopular && isLoadingUpcoming;
     return (
@@ -129,7 +133,7 @@ function Home()  {
                 {isLoading ? <Loader>Loading...</Loader>
                 : <>
                     <Banner 
-                        isdark={isdark}
+                        isDark={isDark}
                         bgphoto={makeImagePath(dataNowPlaying?.results[0].backdrop_path || "")}>
                         <div>
                             <Title>{dataNowPlaying?.results[0].title}</Title>

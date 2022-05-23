@@ -6,7 +6,7 @@ import Header from "./Components/Header";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme } from "./theme";
 import { useRecoilValue } from "recoil";
-import { isdarkState } from "./atoms";
+import { isDarkState } from "./atoms";
 
 
 const GlobalStyle = createGlobalStyle`
@@ -87,10 +87,10 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function App() {
-  const isdark = useRecoilValue(isdarkState);
+  const isDark = useRecoilValue(isDarkState);
   
   return (
-    <ThemeProvider theme={ isdark ? darkTheme : lightTheme}>
+    <ThemeProvider theme={ isDark ? darkTheme : lightTheme }>
       <GlobalStyle />
       <Router>
         <Header />

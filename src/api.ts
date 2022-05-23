@@ -39,19 +39,19 @@ export function getMoviesNowPlaying() {
     );
 }
 //Get Top Rated
-export function getMoivesTopRated() {
+export function getMoviesTopRated() {
     return fetch(`${BASE_PATH}/movie/top_rated?api_key=${API_KEY}`).then(
         (response) => response.json()
     );
 }
 //Get Popular
-export function getMoivesPopular() {
+export function getMoviesPopular() {
     return fetch(`${BASE_PATH}/movie/popular?api_key=${API_KEY}`).then(
         (response) => response.json()
     );
 }
 //Get Upcoming
-export function getMoivesUpcoming() {
+export function getMoviesUpcoming() {
     return fetch(`${BASE_PATH}/movie/upcoming?api_key=${API_KEY}`).then(
         (response) => response.json()
     );

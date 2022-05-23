@@ -3,7 +3,7 @@ import { useQuery } from "react-query";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { getTvAiringToday, getTvOntheAir, getTvPopular, getTvTopRated, IGetMoviesAndTvResult } from "../api";
-import { isdarkState } from "../atoms";
+import { isDarkState } from "../atoms";
 import ListSlider from "../Components/ListSlider";
 import { makeImagePath } from "../untils";
 
@@ -16,13 +16,17 @@ const Loader = styled.div`
     align-items: center;
     height: 20vh;
 `
-const Banner = styled.div<{bgphoto:string, isdark:boolean}>`
+interface IBanner {
+    bgphoto: string;
+    isDark: boolean;
+}
+const Banner = styled.div<IBanner>`
     display: flex;
     flex-direction: column;
     justify-content: center;
     padding: 60px;
     min-height: 100vh;
-    background-image: linear-gradient(${(props) => props.isdark ?
+    background-image: linear-gradient(${(props) => props.isDark ?
         "rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 1) 80%"
         : "rgba(255, 255, 255, 0), rgba(255, 255, 255, 0), #ededed 70%"
     }), url(${(props) => props.bgphoto});
@@ -112,7 +116,7 @@ const SliderGroup = styled.div`
 `;
 
 function Tv()  {
-    const isdark = useRecoilValue(isdarkState);
+    const isDark = useRecoilValue(isDarkState);
 
     const {data: dataAiringToday, isLoading: isLoadingAiringToday} = useQuery<IGetMoviesAndTvResult>(["tv", "airingToday"], getTvAiringToday);
     const {data: dataOntheAir, isLoading: isLoadingOntheAir} = useQuery<IGetMoviesAndTvResult>(["tv", "ontheAir"], getTvOntheAir);
@@ -129,7 +133,7 @@ function Tv()  {
                 {isLoading ? <Loader>Loading...</Loader>
                 : <>
                     <Banner 
-                        isdark={isdark}
+                        isDark={isDark}
                         bgphoto={makeImagePath(dataAiringToday?.results[0].backdrop_path || "")}>
                         <div>
                             <Title>{dataAiringToday?.results[0].name}</Title>

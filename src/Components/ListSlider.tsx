@@ -4,7 +4,7 @@ import { useLocation, useMatch, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { IMovieAndTv } from "../api";
-import { isdarkState } from "../atoms";
+import { isDarkState } from "../atoms";
 import { makeImagePath } from "../untils";
 import ModalMovie from "./ModalMovie";
 import ModalTv from "./ModalTv";
@@ -205,13 +205,13 @@ const BoxImgNull = styled.figure`
 
 const InfoVoted = styled(motion.span)`
 `;
-const Info = styled(motion.div)<{isdark: boolean}>`
+const Info = styled(motion.div)<{isDark: boolean}>`
     display: flex;
     flex-direction: column;
     display: none;
     padding: 10px;
     width: 100%;
-    background-image: ${(props) => props.isdark
+    background-image: ${(props) => props.isDark
         ? `linear-gradient(transparent -20%, ${props.theme.black.veryDark} 55%)`
         : `linear-gradient(transparent -20%, transparent, white 55%)`    
     };
@@ -220,7 +220,7 @@ const Info = styled(motion.div)<{isdark: boolean}>`
     opacity: 0;
     
     border-radius: 8px;
-    color: ${(props) => props.isdark ? "#aaa" : "#666" };
+    color: ${(props) => props.isDark ? "#aaa" : "#666" };
     
     h4 {
         margin-top: 60px;
@@ -250,10 +250,10 @@ const Info = styled(motion.div)<{isdark: boolean}>`
         font-size: 24px;
         font-weight: bold;
         letter-spacing: -1.6px;
-        filter: ${(props) => props.isdark ? `drop-shadow(2px 3px 1.5px ${props.theme.black.lighter})` : null};
-        background-color: ${(props) =>  props.isdark ? null : "rgba(255,255,255,0.6)"};
+        filter: ${(props) => props.isDark ? `drop-shadow(2px 3px 1.5px ${props.theme.black.lighter})` : null};
+        background-color: ${(props) =>  props.isDark ? null : "rgba(255,255,255,0.6)"};
         border-radius: 4px;
-        padding: ${(props) =>  props.isdark ? null : "2px 8px 3px"};
+        padding: ${(props) =>  props.isDark ? null : "2px 8px 3px"};
         display: flex;
         align-items: center;
         justify-content: center
@@ -282,7 +282,7 @@ const InfoOverview = styled(motion.p)`
     -webkit-box-orient: vertical;
 `;
 
-const BtnSlider = styled(motion.button)<{isdark: boolean}>`
+const BtnSlider = styled(motion.button)<{isDark: boolean}>`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -295,20 +295,20 @@ const BtnSlider = styled(motion.button)<{isdark: boolean}>`
     cursor: pointer;
     z-index: 2;
     left: -20px;
-    background: linear-gradient(to right, ${(props) => props.isdark ? "black -30%, transparent 80%" : 
+    background: linear-gradient(to right, ${(props) => props.isDark ? "black -30%, transparent 80%" : 
         `${props.theme.bgColor} -30%, transparent 80%`
     });
 
     &:last-child {
         left: auto;
         right: -20px;
-        background: linear-gradient(to left, ${(props) => props.isdark ? "black -30%, transparent 80%" : 
+        background: linear-gradient(to left, ${(props) => props.isDark ? "black -30%, transparent 80%" : 
             `${props.theme.bgColor} -30%, transparent 80%`
         });
     }
     
     svg line {
-        stroke: ${(props) => props.isdark ? "white" : "black"};
+        stroke: ${(props) => props.isDark ? "white" : "black"};
     }
 `;
 const BtnSliderVariants = {
@@ -353,12 +353,12 @@ const BigMovie = styled(motion.div)`
         width: calc(100% - 40px);
     }
 `;
-const BtnIcon = styled(motion.button)<{isdark: boolean}>`
+const BtnIcon = styled(motion.button)<{isDark: boolean}>`
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 0;
-    background-color: ${(props) => props.isdark ? "transparent" : "rgba(255, 255, 255, 0.6)"};
+    background-color: ${(props) => props.isDark ? "transparent" : "rgba(255, 255, 255, 0.6)"};
     border-radius: 4px;
     border: 0;
     position: absolute;
@@ -377,7 +377,7 @@ const BtnIcon = styled(motion.button)<{isdark: boolean}>`
 `;
 
 interface IBtnTheme {
-    isdark: boolean;
+    isDark: boolean;
 }
 const BigCoverBox = styled.div<IBtnTheme>`
     position: relative;
@@ -389,7 +389,7 @@ const BigCoverBox = styled.div<IBtnTheme>`
         position: absolute;
         top: 0;
         left: 0;
-        background-image: ${(props) => props.isdark 
+        background-image: ${(props) => props.isDark 
             ? `linear-gradient(to bottom, transparent -10%, ${props.theme.modalBgColor} 80%)`
             : `linear-gradient(to bottom, transparent 50%, ${props.theme.modalBgColor})`
         };
@@ -414,7 +414,7 @@ const BigModalInfoBox = styled.div<IBtnTheme>`
     }
     &::-webkit-scrollbar-thumb {        
         border-radius: 8px;
-        background-color: ${(props) => props.isdark ? "#555" : "#666"};
+        background-color: ${(props) => props.isDark ? "#555" : "#666"};
     }
     &::-webkit-scrollbar-track {
         background-color: transparent;
@@ -476,7 +476,7 @@ export interface IGetMoviesAndTvResultProp {
 }
 
 function ListSlider({ isLoading, data, name } : IGetMoviesAndTvResultProp) {
-    const isdark = useRecoilValue(isdarkState);
+    const isDark = useRecoilValue(isDarkState);
     const location = useLocation();
     const navigate = useNavigate();
     const pathname = location.pathname.includes("/tv") ? "tv" : location.pathname.includes("/search") ? "search" : "movies";
@@ -593,7 +593,7 @@ function ListSlider({ isLoading, data, name } : IGetMoviesAndTvResultProp) {
                                             }
                                         
                                         <Info 
-                                            isdark={isdark}
+                                            isDark={isDark}
                                             variants={InfoVariants}
                                             initial="normal"
                                             whileHover="hover"
@@ -617,7 +617,7 @@ function ListSlider({ isLoading, data, name } : IGetMoviesAndTvResultProp) {
                     </Row>
                 </AnimatePresence>
                 <BtnSlider 
-                    isdark={isdark}
+                    isDark={isDark}
                     onClick={prevIndex}
                     variants={BtnSliderVariants}
                     initial="normal"
@@ -629,7 +629,7 @@ function ListSlider({ isLoading, data, name } : IGetMoviesAndTvResultProp) {
                     </svg>
                 </BtnSlider>
                 <BtnSlider
-                    isdark={isdark}
+                    isDark={isDark}
                     onClick={nextIndex}
                     variants={BtnSliderVariants}
                     initial="normal"
@@ -668,16 +668,16 @@ function ListSlider({ isLoading, data, name } : IGetMoviesAndTvResultProp) {
                             {
                                 clickedMovie && 
                                 <>  
-                                    <BtnIcon isdark={isdark} onClick={onModalClose}>
+                                    <BtnIcon isDark={isDark} onClick={onModalClose}>
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M12.45 37.65 10.35 35.55 21.9 24 10.35 12.45 12.45 10.35 24 21.9 35.55 10.35 37.65 12.45 26.1 24 37.65 35.55 35.55 37.65 24 26.1Z" /></svg>
                                     </BtnIcon>
-                                    <BigCoverBox isdark={isdark}>
+                                    <BigCoverBox isDark={isDark}>
                                         { clickedMovie.backdrop_path
                                             ? <BigCover src={makeImagePath(clickedMovie.backdrop_path)} alt="movie image" />
                                             : <BigCover as="div" style={{ height: "40vw", maxHeight: "400px", background: `url("${makeImagePath(clickedMovie.poster_path)}") no-repeat center / cover` }} />
                                         }
                                     </BigCoverBox>
-                                    <BigModalInfoBox isdark={isdark}>
+                                    <BigModalInfoBox isDark={isDark}>
                                             <div>
                                                 <BigTitle>
                                                     { clickedMovie.title ? clickedMovie.title : clickedMovie.name }

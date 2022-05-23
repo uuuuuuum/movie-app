@@ -1,5 +1,4 @@
-import { motion, useAnimation } from "framer-motion";
-import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import { useQuery } from "react-query";
@@ -7,7 +6,7 @@ import { useLocation, useMatch, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { getSearchMovies, getSearchTv, IGetMoviesAndTvResult } from "../api";
-import { isdarkState } from "../atoms";
+import { isDarkState } from "../atoms";
 import ListSlider from "../Components/ListSlider";
 import { makeImagePath } from "../untils";
 
@@ -20,13 +19,18 @@ const Loader = styled.div`
     align-items: center;
     height: 20vh;
 `
-const Banner = styled.div<{bgphoto:string, isdark:boolean}>`
+
+interface IBanner {
+    bgphoto: string;
+    isDark: boolean;
+}
+const Banner = styled.div<IBanner>`
     display: flex;
     flex-direction: column;
     justify-content: center;
     padding: 60px;
     min-height: 100vh;
-    background-image: linear-gradient(${(props) => props.isdark ?
+    background-image: linear-gradient(${(props) => props.isDark ?
         "rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 1) 80%"
         : "rgba(255, 255, 255, 0), rgba(255, 255, 255, 0), #ededed 70%"
     }), url(${(props) => props.bgphoto});
@@ -80,7 +84,7 @@ const SearchFormBox = styled.div`
     margin: 0 auto 80px;
     max-width: 650px;
 `;
-const SearchForm = styled(motion.form)<{isdark: boolean}>`
+const SearchForm = styled(motion.form)<{isDark: boolean}>`
     display: flex;
     align-items: center;
     padding: 0;
@@ -107,11 +111,11 @@ const SearchForm = styled(motion.form)<{isdark: boolean}>`
     svg {
         height: 36px;
         cursor: pointer;
-        fill: ${(props) => props.isdark ? "white" : "1px solid black"};
+        fill: ${(props) => props.isDark ? "white" : "1px solid black"};
     }
 
     input {
-        border: ${(props) => props.isdark ? null : "1px solid black"};
+        border: ${(props) => props.isDark ? null : "1px solid black"};
     }
 `;
 const Input = styled.input`
@@ -182,7 +186,7 @@ interface IForm {
     keyword: string;
 }
 function Search()  {
-    const isdark = useRecoilValue(isdarkState);
+    const isDark = useRecoilValue(isDarkState);
     const location = useLocation();
     const search = new URLSearchParams(location.search);
     const keyword = search.get("keyword");
@@ -214,12 +218,13 @@ function Search()  {
             <Helmet>
                 <title>My Netflix - Search</title>
             </Helmet>
+            <Wrapper>
             {
                 isLoading ? <Loader>Loading...</Loader>
                 : (
                     <>
                         <Banner 
-                            isdark={isdark}
+                            isDark={isDark}
                             bgphoto={
                                 dataSearchMovies?.results[0].backdrop_path 
                                 ? makeImagePath(dataSearchMovies?.results[0].backdrop_path || "")
@@ -233,7 +238,7 @@ function Search()  {
                         <SliderWrapper>
                             <SearchFormBox>
                                 <SearchForm 
-                                    isdark={isdark}
+                                    isDark={isDark}
                                     onSubmit={handleSubmit(onValid)}
                                 >
                                     <Input 
@@ -275,7 +280,7 @@ function Search()  {
                     </>
                 )
             }
-            
+            </Wrapper>
         </>
     );
 }
